@@ -61,12 +61,6 @@ public class GoogleProviderHandler implements ProviderHandler {
             }
         }
 
-        String hostedDomain = this.plugin.getConfig().getString(CONFIG_KEY_PREFIX + "properties.google.hostedDomain");
-
-        if (hostedDomain != null) {
-          gsBuilder.setHostedDomain(hostedDomain);
-        }
-
         GoogleSignInOptions gso = gsBuilder.build();
         this.mGoogleSignInClient = GoogleSignIn.getClient(this.plugin.getActivity(), gso);
     }
@@ -123,16 +117,8 @@ public class GoogleProviderHandler implements ProviderHandler {
                 if (new JWT(token).isExpired(10)) {
                     try {
                         Task<GoogleSignInAccount> task = this.mGoogleSignInClient.silentSignIn();
-                        if (task.isSuccessful()) {
-                            Log.d(GOOGLE_TAG, "Google silentSignIn isSuccessful.");
-                            // There's immediate result available.
-                            account = task.getResult(ApiException.class);
-                            Log.d(GOOGLE_TAG, "Google silentSignIn succeed.");
-                            return true;
-                        } else {
-                            // There's no immediate result ready
-                            return false;
-                        }
+                        account = task.getResult(ApiException.class);
+                        Log.d(GOOGLE_TAG, "Google silentSignIn succeed.");
                     } catch (ApiException exception) {
                         Log.w(GOOGLE_TAG, String.format("Google silentSignIn failure: %s", exception.getLocalizedMessage()));
 

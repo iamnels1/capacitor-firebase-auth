@@ -46,7 +46,7 @@ class FacebookProviderHandler: NSObject, ProviderHandler {
         }
         
         var jsResult: PluginResultData = [:]
-        data.forEach { (key, value) in
+        data.map { (key, value) in
             jsResult[key] = value
         }
         

@@ -7,13 +7,12 @@ import android.util.SparseArray;
 import androidx.annotation.NonNull;
 
 import com.baumblatt.capacitor.firebase.auth.R;
-import com.baumblatt.capacitor.firebase.auth.handlers.AppleProviderHandler;
 import com.baumblatt.capacitor.firebase.auth.handlers.FacebookProviderHandler;
 import com.baumblatt.capacitor.firebase.auth.handlers.GoogleProviderHandler;
 import com.baumblatt.capacitor.firebase.auth.handlers.PhoneProviderHandler;
 import com.baumblatt.capacitor.firebase.auth.handlers.ProviderHandler;
 import com.baumblatt.capacitor.firebase.auth.handlers.TwitterProviderHandler;
-import com.getcapacitor.CapConfig;
+import com.getcapacitor.Config;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
@@ -45,16 +44,16 @@ public class CapacitorFirebaseAuth extends Plugin {
 
     private boolean nativeAuth = false;
 
-    private CapConfig config;
+    private Config config;
 
-    public CapConfig getConfig() {
+    public Config getConfig() {
         return this.config;
     }
 
     public void load() {
         super.load();
 
-        this.config = new CapConfig(this.bridge.getActivity().getAssets(), null);
+        this.config = new Config(this.bridge.getActivity().getAssets(), null);
 
         String[] providers = this.config.getArray(CONFIG_KEY_PREFIX+"providers", new String[0]);
         this.nativeAuth = this.config.getBoolean(CONFIG_KEY_PREFIX+"nativeAuth", false);
@@ -87,11 +86,6 @@ public class CapacitorFirebaseAuth extends Plugin {
                 this.providerHandlers.put(provider, new FacebookProviderHandler());
                 this.providerHandlers.get(provider).init(this);
                 Log.d(PLUGIN_TAG, "Facebook Provider Initialized");
-            } else if (provider.equalsIgnoreCase(getContext().getString(R.string.apple_provider_id))) {
-                Log.d(PLUGIN_TAG, "Initializing Apple Provider");
-                this.providerHandlers.put(provider, new AppleProviderHandler());
-                this.providerHandlers.get(provider).init(this);
-                Log.d(PLUGIN_TAG, "Facebook Apple Initialized");
             } else if (provider.equalsIgnoreCase(getContext().getString(R.string.phone_provider_id))) {
                 Log.d(PLUGIN_TAG, "Initializing Phone Provider");
                 this.providerHandlers.put(provider, new PhoneProviderHandler());

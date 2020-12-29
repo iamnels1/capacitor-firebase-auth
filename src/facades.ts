@@ -1,23 +1,18 @@
-import {Capacitor, Plugins, registerWebPlugin} from '@capacitor/core';
-import * as firebase from 'firebase/app';
+import { Plugins } from '@capacitor/core';
+import firebase from 'firebase/app';
 import 'firebase/auth';
-import {Observable, throwError} from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import {
-    AppleSignInResult,
-    CapacitorFirebaseAuthPlugin,
-    FacebookSignInResult,
-    GoogleSignInResult,
-    PhoneSignInResult,
-    SignInOptions,
-    TwitterSignInResult
+	CapacitorFirebaseAuthPlugin,
+	FacebookSignInResult,
+	GoogleSignInResult,
+	PhoneSignInResult,
+	SignInOptions,
+	TwitterSignInResult
 } from './definitions';
-import {CapacitorFirebaseAuth} from './web';
 
+// @ts-ignore
 const plugin: CapacitorFirebaseAuthPlugin = Plugins.CapacitorFirebaseAuth;
-
-if (Capacitor.platform === 'web') {
-    registerWebPlugin(CapacitorFirebaseAuth)
-}
 
 /**
  * Call the sign in method on native layer and sign in on web layer with retrieved credentials.
@@ -36,8 +31,6 @@ export const cfaSignIn = (providerId: string, data?: SignInOptions): Observable<
 			return cfaSignInTwitter();
 		case facebookProvider:
 			return cfaSignInFacebook();
-        case cfaSignInAppleProvider:
-            return cfaSignInApple();
 		case phoneProvider:
 			return cfaSignInPhone(data.phone, data.verificationCode);
 		default:
@@ -122,34 +115,6 @@ export const cfaSignInFacebook = (): Observable<firebase.User> => {
 		}).catch(reject => observer.error(reject));
 	});
 };
-
-export const cfaSignInAppleProvider = 'apple.com';
-
-/**
- * Call the Apple sign in method on native and sign in on web layer with retrieved credentials.
- */
-export const cfaSignInApple = (): Observable<firebase.User> => {
-    return new Observable(observer => {
-        // native sign in
-        plugin.signIn({providerId: cfaSignInAppleProvider}).then((result: AppleSignInResult) => {
-            const {idToken, rawNonce} = result;
-
-            const provider = new firebase.auth.OAuthProvider('apple.com');
-            provider.addScope('email');
-            provider.addScope('name');
-
-            const credential = provider.credential({idToken, rawNonce})
-
-            // web sign in
-            firebase.app().auth().signInWithCredential(credential)
-                .then((userCredential: firebase.auth.UserCredential) => {
-                    observer.next(userCredential.user);
-                    observer.complete();
-                })
-                .catch((reject: any) => observer.error(reject));
-        }).catch(reject => observer.error(reject));
-    });
-}
 
 /**
  * Call the Phone verification sign in, handling send and retrieve to code on native, but only sign in on web with retrieved credentials.

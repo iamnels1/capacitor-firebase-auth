@@ -57,6 +57,13 @@ public class TwitterProviderHandler implements ProviderHandler, OnSuccessListene
     @Override
     public void onSuccess(AuthResult authResult) {
         this.plugin.handleAuthCredentials(authResult.getCredential());
+        // User is signed in.
+        // IdP data available in
+        // authResult.getAdditionalUserInfo().getProfile().
+        // The OAuth access token can also be retrieved:
+        // authResult.getCredential().getAccessToken().
+        // The OAuth secret can be retrieved by calling:
+        // authResult.getCredential().getSecret().
     }
 
     @Override

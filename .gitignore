@@ -1,9 +1,8 @@
 # compiled output
-/dist
+#/dist
 android/build
 android/capacitor-firebase-auth.iml
 ios/Plugin/Pods
-capacitor-firebase-auth-nightly.tgz
 
 # dependencies
 /node_modules

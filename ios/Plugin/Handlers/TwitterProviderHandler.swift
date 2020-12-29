@@ -46,12 +46,14 @@ class TwitterProviderHandler: NSObject, ProviderHandler {
     
     func fillResult(credential: AuthCredential?, data: PluginResultData) -> PluginResultData {
         var jsResult: PluginResultData = [:]
-        
-        data.forEach { (key, value) in
+        data.map { (key, value) in
             jsResult[key] = value
         }
         
         let twitterCredential = credential as! OAuthCredential
+        print(twitterCredential.accessToken)
+        print(twitterCredential.idToken)
+        print(twitterCredential.secret)
         
         jsResult["idToken"] = twitterCredential.accessToken
         jsResult["secret"] = twitterCredential.secret

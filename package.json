@@ -1,30 +1,41 @@
 {
-	"name": "capacitor-firebase-auth",
-	"version": "2.3.5",
+	"name": "@iamnels1/capacitor-firebase-auth",
+	"version": "2.2.0",
 	"description": "Capacitor plugin for Firebase Authentication",
 	"main": "dist/esm/index.js",
 	"types": "dist/esm/index.d.ts",
 	"scripts": {
-		"build": "npm run clean && tsc --project tsconfig.json",
-		"pack": "npm pack && mv capacitor-firebase-auth-2.*.tgz capacitor-firebase-auth-nightly.tgz",
+		"build": "npm run clean && tsc",
 		"clean": "rimraf ./dist",
 		"watch": "tsc --watch",
 		"prepublishOnly": "npm run build"
 	},
+	"precommit": [
+		"build"
+	],	
 	"author": "Bernardo Baumblatt",
 	"license": "MIT",
 	"dependencies": {
-		"@capacitor/core": "latest"
+		"@capacitor/core": "latest",
+		"@capacitor/android": "latest",
+		"@capacitor/ios": "latest",
+		"firebase": "^7.14.2",
+		"rimraf": "^3.0.0",
+		"rxjs": "^6.5.5",
+		"typescript": "^3.2.4"
 	},
 	"devDependencies": {
-		"rimraf": "^3.0.0",
-		"typescript": "^3.9.5",
+		"@capacitor/core": "latest",
+		"@capacitor/android": "latest",
 		"@capacitor/ios": "latest",
-		"@capacitor/android": "latest"
+		"firebase": "^7.14.2",
+		"rimraf": "^3.0.0",
+		"rxjs": "^6.5.5",
+		"typescript": "^3.2.4"
 	},
 	"peerDependencies": {
-		"firebase": "^7.24.0",
-		"rxjs": "~6.6.3"
+		"firebase": "^7.14.2",
+		"rxjs": "~6.5.5"
 	},
 	"files": [
 		"alternative/",

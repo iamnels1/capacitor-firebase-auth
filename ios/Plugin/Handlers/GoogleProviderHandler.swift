@@ -19,18 +19,11 @@ class GoogleProviderHandler: NSObject, ProviderHandler, GIDSignInDelegate {
         GIDSignIn.sharedInstance().presentingViewController = self.plugin?.bridge.viewController
 
         let permissions = self.plugin?.getConfigValue("permissions") as? [String:Any] ?? [:]
-
+        
         if let scopes = permissions["google"] as? [String] {
             GIDSignIn.sharedInstance().scopes = scopes;
         }
-
-        let propertiesMap = self.plugin?.getConfigValue("properties") as? [String:Any] ?? [:]
-        let properties = propertiesMap["google"] as? [String:Any] ?? [:]
-
-        if let hostedDomain = properties["hostedDomain"] as? String {
-            GIDSignIn.sharedInstance()?.hostedDomain = hostedDomain
-        }
-
+        
         NotificationCenter.default
             .addObserver(self, selector: #selector(handleOpenUrl(_ :)), name: Notification.Name(CAPNotifications.URLOpen.name()), object: nil)
     }
@@ -83,7 +76,7 @@ class GoogleProviderHandler: NSObject, ProviderHandler, GIDSignInDelegate {
         }
 
         var jsResult: PluginResultData = [:]
-        data.forEach { (key, value) in
+        data.map { (key, value) in
             jsResult[key] = value
         }
 
