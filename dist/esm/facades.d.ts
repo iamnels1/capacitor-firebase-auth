@@ -1,12 +1,13 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { Observable } from 'rxjs';
+import { SignInOptions } from './definitions';
 /**
  * Call the sign in method on native layer and sign in on web layer with retrieved credentials.
  * @param providerId The provider identification.
  * @param data The provider additional information (optional).
  */
-export declare const cfaSignIn: (providerId: string, data?: import("./definitions").PhoneSignInOptions) => Observable<firebase.User>;
+export declare const cfaSignIn: (providerId: string, data?: SignInOptions) => Observable<firebase.User>;
 /**
  * Call the Google sign in method on native layer and sign in on web layer with retrieved credentials.
  */
