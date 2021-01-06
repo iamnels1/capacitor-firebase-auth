@@ -33,7 +33,7 @@
 		"dist/",
 		"ios/",
 		"android/",
-		"CapacitorFirebaseAuth.podspec"
+		"Iamnels1CapacitorFirebaseAuth.podspec"
 	],
 	"keywords": [
 		"capacitor",
